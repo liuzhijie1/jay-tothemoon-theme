@@ -40,7 +40,7 @@
               class="w-full h-80 md:h-96 object-cover object-center"
             >
           {% else %}
-            {% assign placeholder_image = 'lifestyle-2' %} 
+            {% assign placeholder_image = 'lifestyle-2' %}
             {{ placeholder_image | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5' }}
           {% endif %}
         </div>
@@ -96,9 +96,7 @@
               <div class="text-red-500">
                 {% render 'icon-failed' %}
               </div>
-              <div class="text-sm font-medium ml-3">
-                Oh no! Your comment was not posted
-              </div>
+              <div class="text-sm font-medium ml-3">Oh no! Your comment was not posted</div>
             </div>
             <ul class="px-4 mb-3 ml-7 list-decimal">
               {% for error in form.errors %}
@@ -113,9 +111,7 @@
             <div class="text-green-500">
               {% render 'icon-success' %}
             </div>
-            <div class="text-sm font-medium ml-3">
-              Comment is posted successfully
-            </div>
+            <div class="text-sm font-medium ml-3">Comment is posted successfully</div>
           </div>
         {% endif %}
 
@@ -167,6 +163,28 @@
     {% endform %}
   </div>
 {% endif %}
+
+<script>
+    {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "headline": {{ article.title |  json }},
+      "author": {
+        "@type": "Person",
+        "name": {{ article.author |  json }}
+      },
+      "datePublished": {{ article.published_at | date: '%Y-%m-%d' | json }},
+      {% if article.image %}
+        "image": [
+          {{ article.image | img_url: 'medium' |  prepend: 'https:' |  json  }}
+        ],
+      {% endif %}
+      "articleBody": {{ article.content | strip_html |  json }},
+      {% if atricle.excerpt !== blank %}
+        "description": {{ article.excerpt |  strip_html | json }},
+      {% endif %}
+    }
+</script>
 
 {% schema %}
 {
