@@ -164,7 +164,7 @@
   </div>
 {% endif %}
 
-<script>
+<script type="application/ld+json">
     {
       "@context": "http://schema.org",
       "@type": "BlogPosting",
@@ -174,15 +174,20 @@
         "name": {{ article.author |  json }}
       },
       "datePublished": {{ article.published_at | date: '%Y-%m-%d' | json }},
+      "dateCreated": {{ article.created_at | date: '%Y-%m-%d' | json }},
       {% if article.image %}
         "image": [
-          {{ article.image | img_url: 'medium' |  prepend: 'https:' |  json  }}
+          {{ article.image | img_url: 'medium' |  prepend: 'https:' |  json  }},
         ],
       {% endif %}
       "articleBody": {{ article.content | strip_html |  json }},
-      {% if atricle.excerpt !== blank %}
+      {% if atricle.excerpt != blank %}
         "description": {{ article.excerpt |  strip_html | json }},
       {% endif %}
+      "publisher": {
+        "@type": "Organization",
+        "name": {{ shop.name |  json }}
+      },
     }
 </script>
 
