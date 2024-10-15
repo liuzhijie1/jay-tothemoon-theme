@@ -86,16 +86,61 @@
                   <select
                     name="options[{{ option.name |  escape }}]"
                     id="Option-{{ section.id }}-{{ forloop.index0 }}"
-                    class="w-full"
+                    class="w-full border py-3 px-3"
                   >
                     {% for value in option.values %}
-                      <option value="{{ value |  escape }}">{{ value }}</option>
+                      <option
+                        value="{{ value |  escape }}"
+                        {% if option.selected_value == value %}
+                          selected="selected"
+                        {% endif %}
+                      >
+                        {{ value }}
+                      </option>
                     {% endfor %}
                   </select>
                 </div>
               {% endfor %}
             </div>
           {% endunless %}
+        </div>
+
+        <div class="my-3">
+          <label for="Quantity-{{ section.id }}">Quantity</label>
+
+          <div class="my-2">
+            <input
+              type="number"
+              name="quantity"
+              id="Quantity-{{ section.id }}"
+              value="1"
+              min="1"
+              class="w-full border py-3 px-3"
+            >
+          </div>
+        </div>
+
+        <div class="my-3">
+          <p class="text-gray-700">
+            {{ product.description }}
+          </p>
+        </div>
+
+        <div class="my-3">
+          <button
+            type="submit"
+            name="add"
+            class="w-full cursor-pointer px-6 py-4 border text-base font-medium rounded-sm my-2 text-white bg-gray-900 hover:bg-gray-500"
+            {% if product.selected_or_first_available_variant == false %}
+              disabled="disabled"
+            {% endif %}
+          >
+            {% if product.selected_or_first_available_variant.available == false %}
+              Sold out
+            {% else %}
+              Add to cart
+            {% endif %}
+          </button>
         </div>
       {% endform %}
     </div>
