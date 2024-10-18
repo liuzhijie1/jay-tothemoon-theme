@@ -112,6 +112,10 @@
                           {% endfor %}
                         </select>
                       </div>
+
+                      <script type="application/json">
+                        {{ product.variants |  json }}
+                      </script>
                     {% endfor %}
                   </variant-selector>
                 {% endunless %}
@@ -171,33 +175,31 @@
         super();
 
         this.addEventListener('change', (event) => {
-          console.log('i have changed the variant selector')
-          // const select = event.target;
-          // const option = select.options[select.selectedIndex];
-          // const value = option.value;
-          // const name = select.name;
-
-          // const form = select.closest('form');
-          // const url = form.getAttribute('data-url');
-          // const section = form.getAttribute('data-section');
-
-          // fetch(`${url}?section_id=${section}&variant=${value}`, {
-          //   method: 'GET',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          // })
-          //   .then((response) => response.text())
-          //   .then((html) => {
-          //     const parser = new DOMParser();
-          //     const doc = parser.parseFromString(html, 'text/html');
-
-          //     const product = doc.querySelector('.product--information');
-          //     const newProduct = document.querySelector('.product--information');
-
-          //     newProduct.innerHTML = product.innerHTML;
-          //   });
+          console.log('i have changed the variant selector');
+          this.getSelectedOptions();
+          this.getSelectedVariant();
         });
+      }
+      getSelectedOptions() {
+        this.options = Array.from(this.querySelectorAll('select')).map((select) => select.value);
+        console.log(this.options);
+      }
+      getVariantJSON() {
+        this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
+        return this.variantData;
+      }
+      getSelectedVariant() {
+        this.currentVariant = this.getVariantJSON().find((variant) => {
+          const findings = !variant.options.map(
+            (option, index) => option === this.options[index];
+          ).includes(false);
+
+          if (findings) {
+            return variant;
+          }
+        });
+
+        console.log(this.currentVariant);
       }
     }
   );
