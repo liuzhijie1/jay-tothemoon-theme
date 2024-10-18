@@ -90,7 +90,7 @@
             {% when 'variant_selector' %}
               <div class="my-3">
                 {% unless product.has_only_default_variant %}
-                  <div data-url="{{ product.url }}" data-section="{{ section.id }}" class="">
+                  <variant-selector data-url="{{ product.url }}" data-section="{{ section.id }}" class="">
                     {% for option in product.options_with_values %}
                       <label for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
 
@@ -113,7 +113,7 @@
                         </select>
                       </div>
                     {% endfor %}
-                  </div>
+                  </variant-selector>
                 {% endunless %}
               </div>
             {% when 'quantity' %}
@@ -162,6 +162,46 @@
     </div>
   </div>
 </div>
+
+<script>
+  customElements.define(
+    'variant-selector',
+    class extends HTMLElement {
+      constructor() {
+        super();
+
+        this.addEventListener('change', (event) => {
+          console.log('i have changed the variant selector')
+          // const select = event.target;
+          // const option = select.options[select.selectedIndex];
+          // const value = option.value;
+          // const name = select.name;
+
+          // const form = select.closest('form');
+          // const url = form.getAttribute('data-url');
+          // const section = form.getAttribute('data-section');
+
+          // fetch(`${url}?section_id=${section}&variant=${value}`, {
+          //   method: 'GET',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          // })
+          //   .then((response) => response.text())
+          //   .then((html) => {
+          //     const parser = new DOMParser();
+          //     const doc = parser.parseFromString(html, 'text/html');
+
+          //     const product = doc.querySelector('.product--information');
+          //     const newProduct = document.querySelector('.product--information');
+
+          //     newProduct.innerHTML = product.innerHTML;
+          //   });
+        });
+      }
+    }
+  );
+</script>
 
 <script>
   const swiper = new Swiper('.swiper', {
