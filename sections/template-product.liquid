@@ -178,6 +178,10 @@
           console.log('i have changed the variant selector');
           this.getSelectedOptions();
           this.getSelectedVariant();
+
+          if (this.currentVariant) {
+            this.updateURL();
+          }
         });
       }
       getSelectedOptions() {
@@ -198,6 +202,12 @@
         });
 
         console.log(this.currentVariant);
+      }
+      updateURL() {
+        if (!this.currentVariant) {
+          return;
+        }
+        window.history.replaceState({}, '', `${this.dataset.url}?variant=${this.currentVariant.id}`);
       }
     }
   );
