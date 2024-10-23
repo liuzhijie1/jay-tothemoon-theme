@@ -3,7 +3,7 @@
   href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
 >
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
 {% assign selected_variant = product.selected_or_first_available_variant %}
 
@@ -43,11 +43,11 @@
       </div>
 
       <div class="md:hidden">
-        <div class="swiper h-94">
+        <div class="swiper">
           <div class="swiper-wrapper">
             {% for media in product.media %}
               <div class="swiper-slide">
-                <div class="h-80 overflow-hidden p-2">
+                <div class="h-[100vw] overflow-hidden p-2">
                   {% render 'product-media', media: media %}
                 </div>
               </div>
@@ -231,19 +231,25 @@
 </script>
 
 <script>
-  const swiper = new Swiper('.swiper', {
-    direction: 'horizontal',
-    slidesPerView: 1,
-    spaceBetween: 10,
-    loop: true,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
+  document.addEventListener('DOMContentLoaded', function () {
+    try {
+      const swiper = new Swiper('.swiper', {
+        direction: 'horizontal',
+        slidesPerView: 1,
+        spaceBetween: 10,
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    } catch (error) {
+      console.log('Swiper is not available');
+    }
   });
 </script>
 
